@@ -40,12 +40,21 @@ end
 ```
 
 # run tests:
-    chef exec rspec --color spec/unit/recipes/*_spec.rb
-    kitchen test
+    # from my development mac
+    # run style and kitchen tests
+    /opt/chefdk/embedded/bin/rake full
+
+    # run just proxied kitchen tests,  make sure to update the
+    # proxy setting in .kitchen.yml
+    kitchen test default
+
+    # run tests that touch the proxyfile, but don't set
+    # env vars for the proxy.  Will allow testing when
+    # not behind a proxy
+    kitchen test disabled
 
 # run style checks:
-    rubocop
-    foodcritic recipes/default.rb
+    /opt/chefdk/embedded/bin/rake default
 
 ### Note
 Make sure that you add the "chef_solo_proxy" before "apt" or any other cookbook that requires the proxy in your run list.
