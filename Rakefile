@@ -1,5 +1,11 @@
 #!/usr/bin/env rake
 
+require 'rake'
+require 'rspec/core/rake_task'
+require 'rubocop/rake_task'
+require 'foodcritic'
+require 'kitchen'
+
 desc "Runs foodcritic linter"
 task :foodcritic do
   if Gem::Version.new("1.9.2") <= Gem::Version.new(RUBY_VERSION.dup)
@@ -12,10 +18,6 @@ task :foodcritic do
   end
 end
 
-task :default => 'foodcritic'
-
-private
-
 def prepare_foodcritic_sandbox(sandbox)
   files = %w{*.md *.rb attributes definitions files libraries providers recipes resources templates}
 
@@ -25,3 +27,36 @@ def prepare_foodcritic_sandbox(sandbox)
   puts "\n\n"
 end
 
+# Style tests. Rubocop and Foodcritic
+namespace :style do
+  desc 'Run Ruby style checks'
+  RuboCop::RakeTask.new(:ruby)
+
+  desc 'Run Chef style checks'
+  FoodCritic::Rake::LintTask.new(:chef) do |t|
+    t.options = {
+      fail_tags: ['any']
+    }
+  end
+end
+
+desc 'Run all style checks'
+task style: ['style:ruby', 'style:chef']
+
+desc 'Run ChefSpec examples'
+RSpec::Core::RakeTask.new(:unit) do |t|
+  t.pattern = './**/unit/**/*_spec.rb'
+end
+
+desc 'Run Test Kitchen'
+task :integration do
+  Kitchen.logger = Kitchen.default_file_logger
+  Kitchen::Config.new.instances.each do |instance|
+    instance.test(:always)
+  end
+end
+
+# Default
+task default: %w(style unit)
+
+task full: %w(style unit integration)
