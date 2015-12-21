@@ -8,6 +8,6 @@ gem 'rubocop'
 gem 'test-kitchen'
 
 group :development do
-  gem "knife-spork", '1.6.1'
-  gem "berkshelf", '4.0.1'
+  gem 'knife-spork', '1.6.1'
+  gem 'berkshelf', '4.0.1'
 end

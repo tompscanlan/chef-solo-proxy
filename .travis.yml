@@ -1,7 +1,9 @@
 language: ruby
+cache: bundler
 gemfile:
   - test/support/Gemfile
-script: bundle exec rake foodcritic
+bundler_args: --jobs 7 --retry 3
+script: bundle exec rake default
 rvm:
   - 1.9.3
   - 2.1.8
