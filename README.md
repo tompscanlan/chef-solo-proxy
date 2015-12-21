@@ -1,18 +1,18 @@
 # Description
-## Chef Solo proxy environment varriable
-Adds a proxy environment varriable to Chef Solo. I ran into a problem where my Vagrant box could not provision behind the company proxy, after reading this thread: https://github.com/mitchellh/vagrant/issues/640 I decided to write a cookbook that I could drop into my run list.
+## Chef Solo proxy environment variable
+Adds a proxy environment variable to Chef Solo. I ran into a problem where my Vagrant box could not provision behind the company proxy, after reading this thread: https://github.com/mitchellh/vagrant/issues/640 I decided to write a cookbook that I could drop into my run list.
 
 # Attributes
  * ###[chef_solo_proxy][http_proxy]
-    Sets an environment varriable for the http proxy
+    Sets an environment variable for the http proxy
     Default value: nil
 
  * ###[chef_solo_proxy][https_proxy]
-    Sets an environment varriable for the https secure proxy
+    Sets an environment variable for the https secure proxy
     Default value: nil
 
  * ###[chef_solo_proxy][no_proxy]
-    List of hosts that should not go through proxy
+    List of hosts that should not be called through the proxy
 
 # Usage
 In my vagrant file I use the following:
@@ -30,6 +30,7 @@ Vagrant.configure('2') do |config|
           :chef_solo_proxy => {
               :https_proxy => 'https://my.httpsproxy.url:80',
               :http_proxy => 'http://my.httpproxy.url:80'
+              :no_proxy => ['127.0.0.1', '192.168.1.1']
             }
         }
         chef.add_recipe 'chef_solo_proxy'
