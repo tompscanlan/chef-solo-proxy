@@ -11,6 +11,9 @@ Adds a proxy environment varriable to Chef Solo. I ran into a problem where my V
     Sets an environment varriable for the https secure proxy
     Default value: nil
 
+ * ###[chef_solo_proxy][no_proxy]
+    List of hosts that should not go through proxy
+
 # Usage
 In my vagrant file I use the following:
 
@@ -29,11 +32,20 @@ Vagrant.configure('2') do |config|
               :http_proxy => 'http://my.httpproxy.url:80'
             }
         }
-        chef.add_recipe 'chef-solo-proxy'
+        chef.add_recipe 'chef_solo_proxy'
         chef.add_recipe 'apt'
     end
 end
 ```
 
+# run tests:
+    chef exec rspec --color spec/unit/recipes/*_spec.rb
+    kitchen test
+
+# run style checks:
+    rubocop
+    foodcritic recipes/default.rb
+
 ### Note
-Make sure that you add the "chef-solo-proxy" before "apt" or any other cookbook that requires the proxy in your run list.
+Make sure that you add the "chef_solo_proxy" before "apt" or any other cookbook that requires the proxy in your run list.
+
