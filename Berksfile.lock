@@ -1,7 +1,0 @@
-DEPENDENCIES
-  chef_solo_proxy
-    path: .
-    metadata: true
-
-GRAPH
-  chef_solo_proxy (0.0.3)
