@@ -51,6 +51,6 @@ task :integration do
 end
 
 # Default
-task default: %w(style unit)
+task default: %w(style)
 
 task full: %w(style unit integration)
