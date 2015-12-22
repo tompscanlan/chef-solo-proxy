@@ -31,9 +31,6 @@ namespace :style do
     cp_r Dir.glob("{#{files.join(',')}}"), sandbox
     puts "\n\n"
   end
-
-  desc 'Run Chef style checks'
-  Rake::Task['foodcritic'].execute
 end
 
 desc 'Run all style checks'
@@ -42,6 +39,7 @@ task style: ['style:ruby', 'style:foodcritic']
 desc 'Run ChefSpec examples'
 RSpec::Core::RakeTask.new(:unit) do |t|
   t.pattern = './**/unit/**/*_spec.rb'
+  t.exclude_pattern = './test/support/vendor/bundle/**'
 end
 
 desc 'Run Test Kitchen'
