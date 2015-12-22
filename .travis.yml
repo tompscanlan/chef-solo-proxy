@@ -5,7 +5,6 @@ gemfile:
 bundler_args: --jobs 7 --retry 3
 script: bundle exec rake default
 rvm:
-  - 1.9.3
   - 2.1.8
   - 2.2.4
 branches:
